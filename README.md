@@ -1,63 +1,50 @@
 MYSGYM — Plataforma Integral para Gestión de Gimnasios
-Proyecto colaborativo reciclado, modernizado y adaptado para despliegue en la nube con Render
-MYSGYM es un sistema completo de gestión para gimnasios, desarrollado originalmente como un proyecto colaborativo académico.
-Esta versión ha sido refactorizada, optimizada y unificada para funcionar como una aplicación full-stack Flask desplegable en la nube mediante Render, utilizando PostgreSQL gestionado y un único servicio web que sirve:
-• API REST (Flask + SQLAlchemy + JWT)
-• Frontend HTML/CSS/JS (Jinja + Static Assets)
-• Base de datos PostgreSQL (Render Managed DB)
+Proyecto colaborativo reciclado, modernizado y desplegado en la nube con Render
+MYSGYM nació como un proyecto colaborativo académico.
+Esta versión es una refactorización completa, donde se unificó backend + frontend en un solo servicio Flask, se migró MySQL → PostgreSQL y se adaptó toda la arquitectura para funcionar en Render Cloud.
+El resultado es una plataforma ligera, escalable y lista para producción.
 ---
-Características Principales
-Backend API REST
-• Framework: Flask
-• ORM: SQLAlchemy
-• Migraciones: Flask-Migrate
-• Seguridad: JWT (Flask-JWT-Extended)
-• Modularización con Blueprints
-• Roles: Cliente, Monitor, Administrador
-Frontend Integrado
-• Plantillas Jinja2
-• Estilos CSS personalizados
-• JavaScript modular (fetch API, CRUD dinámico)
-• Dashboard, login, gestión de entidades, etc.
-Base de Datos
-• PostgreSQL 18 (Render Managed)
-• Modelos normalizados
-• Seed automático opcional
-Despliegue en la nube
-• Un solo servicio Render (backend + frontend)
-• Dockerfile optimizado
-• render.yaml para infraestructura como código
+Descripción General
+MYSGYM es un sistema de gestión para gimnasios que incluye:
+• API REST modular con Flask
+• Autenticación JWT
+• Gestión de usuarios, empleados, reservas, pagos, salas, materiales y actividades
+• Frontend integrado con Jinja2 + HTML + CSS + JavaScript
+• Base de datos PostgreSQL gestionada por Render
+• Despliegue mediante Docker + render.yaml
 ---
-Estructura del Proyecto (Versión Unificada)
+Estructura del Proyecto
+```
 MYSGYM/
 ├── app/
-│   ├── __init__.py            # Factory principal (API + Frontend)
-│   ├── models.py              # Modelos SQLAlchemy
-│   ├── utils.py               # Utilidades y helpers
-│   ├── routes/                # Blueprints API + Frontend
+│   ├── __init__.py              # Factory principal (API + Frontend)
+│   ├── models.py                # Modelos SQLAlchemy
+│   ├── utils.py                 # Utilidades
+│   ├── routes/                  # Blueprints API + Frontend
 │   │   ├── auth.py
 │   │   ├── usuarios.py
+│   │   ├── empleados.py
 │   │   ├── gym.py
 │   │   ├── reservas.py
 │   │   ├── pagos.py
 │   │   ├── mantenimiento.py
-│   │   ├── empleados.py
-│   │   └── frontend_routes.py # Rutas HTML
-│   ├── templates/             # HTML (Jinja)
+│   │   └── frontend_routes.py
+│   ├── templates/               # HTML (Jinja2)
 │   │   ├── base.html
 │   │   ├── home.html
 │   │   ├── login.html
 │   │   ├── dashboard.html
 │   │   ├── entity.html
 │   │   └── register.html
-│   └── static/                # CSS + JS
+│   └── static/                  # CSS + JS
 │       ├── css/
 │       └── js/
-├── run.py                     # Punto de entrada
-├── Dockerfile                 # Imagen para Render
-├── requirements.txt           # Dependencias
-├── render.yaml                # Infraestructura Render
-└── tests/                     # Pruebas unitarias y funcionales
+├── run.py                       # Punto de entrada
+├── Dockerfile                   # Imagen para Render
+├── requirements.txt             # Dependencias
+├── render.yaml                  # Infraestructura Render
+└── tests/                       # Pruebas unitarias y funcionales
+```
 Tecnologías Utilizadas
 Backend
 • Python 3.12+
@@ -67,8 +54,8 @@ Backend
 • Flask-JWT-Extended
 • Flask-CORS
 Frontend
-• HTML5 + Jinja2
-• CSS3
+• HTML + Jinja2
+• CSS
 • JavaScript modular (fetch API)
 Infraestructura
 • Docker
