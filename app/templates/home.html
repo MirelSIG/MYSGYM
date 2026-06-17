@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+
+{% block title %}MYSGYM | Resumen{% endblock %}
+
+{% block body %}
+<section class="hero">
+    <div class="hero-wordmark">
+             MYSGYM
+    </div>
+    <div class="hero-bottom">
+        <div class="hero-img">
+            <div class="hero-img-label">Modelo relacional · MYSGYM</div>
+        </div>
+        <div class="hero-kpis">
+            <div class="hero-kpi">
+                <div class="kpi-label">Entidades</div>
+                    <div class="kpi-num">{{ sections|length }}</div>
+                    <div class="kpi-sub">tablas del diagrama</div>
+            </div>
+            <div class="hero-kpi">
+                <div class="kpi-label">Registros</div>
+                <div class="kpi-num" id="kpi-total-records">0</div>
+                <div class="kpi-sub up"><span id="kpi-active-users">0</span> usuarios activos</div>
+            </div>
+            <div class="hero-kpi">
+                <div class="kpi-label">Relaciones</div>
+                <div class="kpi-num" id="kpi-linked-entities">0</div>
+                <div class="kpi-sub">entidades con claves foraneas</div>
+            </div>
+            <div class="hero-kpi">
+                <div class="kpi-label">Pagos</div>
+                <div class="kpi-num"><span id="kpi-total-revenue">0</span><span class="kpi-unit">€</span></div>
+                <div class="kpi-sub dn"><span id="kpi-open-issues">0</span> incidencias abiertas</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="diagram-board">
+    <div class="diagram-wire wire-user"></div>
+    <div class="diagram-wire wire-employee"></div>
+    <div class="diagram-wire wire-activity"></div>
+    <div class="diagram-wire wire-reservation"></div>
+    <div class="diagram-wire wire-material"></div>
+
+    {% for section in sections %}
+    <article class="diagram-node node-{{ section.key }}" data-entity-card="{{ section.key }}">
+        <div>
+            <div class="diagram-node-head">
+                <div class="diagram-node-name">{{ section.title }}</div>
+                <div class="diagram-node-count" data-count>0 registros</div>
+            </div>
+            <div class="diagram-node-accent">{{ section.accent }}</div>
+            <p class="diagram-node-copy">{{ section.description }}</p>
+        </div>
+        <a class="diagram-node-link" href="{{ section.url }}">Abrir entidad</a>
+    </article>
+    {% endfor %}
+</section>
+
+<section class="diagram-footer">
+    <div class="two-col">
+        <div class="col-block">
+            <div class="col-title">Registros recientes de pagos</div>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Usuario</th>
+                        <th>Importe</th>
+                        <th>Metodo</th>
+                    </tr>
+                </thead>
+                <tbody id="latest-payments-body">
+                    <tr>
+                        <td colspan="4">Cargando...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-block">
+            <div class="col-title">Distribucion de registros por entidad</div>
+            <div id="distribution-list"></div>
+        </div>
+    </div>
+</section>
+
+<footer class="foot">
+    <span>MYSGYM</span>
+    <span>Diagrama implementado: usuarios, empleados, salas, horarios, actividades, reservas, material, incidencias y pagos</span>
+</footer>
+<script>
+window.MYSGYM_SCHEMA = {{ schema|tojson }};
+window.MYSGYM_SECTIONS = {{ sections|tojson }};
+</script>
+<script src="{{ url_for('static', filename='js/home.js') }}"></script>
+{% endblock %}

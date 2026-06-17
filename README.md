@@ -1,159 +1,135 @@
-# MYSGYM — Backend API
-
-Sistema de gestión integral para gimnasios desarrollado con **Python Flask**, **SQLAlchemy** y **MySQL**.
-
-## Estructura del Proyecto
-
-El proyecto sigue un patrón modular utilizando Blueprints para facilitar la escalabilidad:
-
-```text
-Backend_MYSGYM/
-├── app/                    # Lógica principal de la aplicación
-│   ├── routes/             # Blueprints (Auth, Gym, Usuarios, etc.)
-│   ├── models.py           # Modelos de SQLAlchemy
-│   ├── utils.py            # Decoradores y utilidades de seguridad
-│   └── __init__.py         # Factory de la aplicación
-├── database/               # Volumen de persistencia de MySQL (Docker)
-├── docs/                   # Documentación detallada (Épicas, Diagramas, E/R)
-├── migrations/             # Migraciones de la base de datos
-├── scripts/                # Scripts de utilidad (Carga de datos/Seed)
-├── tests/                  # Pruebas unitarias y de integración
-├── database_schema.sql     # Script SQL completo de la DB
-├── docker-compose.yml      # Orquestación de contenedores
-├── run.py                  # Punto de entrada de la aplicación
-└── requirements.txt        # Dependencias del proyecto
-```
-
-## Tecnologías utilizadas
-
-*   **Framework:** Flask
-*   **Base de Datos:** MySQL 8.0 (Dockerizado)
-*   **ORM:** SQLAlchemy + Flask-Migrate
-*   **Seguridad:** Flask-JWT-Extended (Roles: Cliente, Monitor, Admin)
-
-## Requisitos previos
-
-Antes de instalar el proyecto, asegúrate de tener:
-
-- **Python 3.12+**
-- **Docker**
-- **Docker Compose**
-- **Git**
-
-## Instalación paso a paso
-
-Sigue estos pasos para configurar el proyecto en un ordenador nuevo desde cero:
-
-### 1. Clonar el repositorio
-Abre una terminal y descarga el código:
-```bash
-git clone <URL_DEL_REPO>
-cd Backend_MYSGYM
-```
-
-### 2. Levantar la Base de Datos (local)
-Si trabajas en tu equipo, puedes usar MySQL con Docker como hasta ahora:
-```bash
-docker-compose up -d
-```
-*La base de datos estará disponible en `localhost:3307`.*
-
-En Render, el backend usa una base gestionada de PostgreSQL y recibe su conexión desde `DATABASE_URL`.
-
-### 3. Configurar Variables de Entorno
-Crea un archivo llamado `.env` en la raíz del proyecto con el siguiente contenido base:
-```env
-DB_HOST=localhost
-DB_PORT=3307
-DB_USER=root
-DB_PASSWORD=root_password
-DB_NAME=gimnasio
-JWT_SECRET_KEY=super-secret-key
-```
-
-Si despliegas en Render, no necesitas definir `DB_HOST`, `DB_PORT`, `DB_USER`, `DB_PASSWORD` ni `DB_NAME` si `DATABASE_URL` ya está presente.
-
-### 4. Crear y activar el entorno virtual
-**En Windows:**
-```powershell
-python -m venv .venv
-.\.venv\Scripts\activate
-```
-
-**En macOS/Linux:**
-```bash
-python3 -m venv .venv
-source .venv/bin/activate
-```
-
-### 5. Instalar dependencias
-```bash
+MYSGYM — Plataforma Integral para Gestión de Gimnasios
+Proyecto colaborativo reciclado, modernizado y adaptado para despliegue en la nube con Render
+MYSGYM es un sistema completo de gestión para gimnasios, desarrollado originalmente como un proyecto colaborativo académico.
+Esta versión ha sido refactorizada, optimizada y unificada para funcionar como una aplicación full-stack Flask desplegable en la nube mediante Render, utilizando PostgreSQL gestionado y un único servicio web que sirve:
+• API REST (Flask + SQLAlchemy + JWT)
+• Frontend HTML/CSS/JS (Jinja + Static Assets)
+• Base de datos PostgreSQL (Render Managed DB)
+---
+Características Principales
+Backend API REST
+• Framework: Flask
+• ORM: SQLAlchemy
+• Migraciones: Flask-Migrate
+• Seguridad: JWT (Flask-JWT-Extended)
+• Modularización con Blueprints
+• Roles: Cliente, Monitor, Administrador
+Frontend Integrado
+• Plantillas Jinja2
+• Estilos CSS personalizados
+• JavaScript modular (fetch API, CRUD dinámico)
+• Dashboard, login, gestión de entidades, etc.
+Base de Datos
+• PostgreSQL 18 (Render Managed)
+• Modelos normalizados
+• Seed automático opcional
+Despliegue en la nube
+• Un solo servicio Render (backend + frontend)
+• Dockerfile optimizado
+• render.yaml para infraestructura como código
+---
+Estructura del Proyecto (Versión Unificada)
+MYSGYM/
+├── app/
+│   ├── __init__.py            # Factory principal (API + Frontend)
+│   ├── models.py              # Modelos SQLAlchemy
+│   ├── utils.py               # Utilidades y helpers
+│   ├── routes/                # Blueprints API + Frontend
+│   │   ├── auth.py
+│   │   ├── usuarios.py
+│   │   ├── gym.py
+│   │   ├── reservas.py
+│   │   ├── pagos.py
+│   │   ├── mantenimiento.py
+│   │   ├── empleados.py
+│   │   └── frontend_routes.py # Rutas HTML
+│   ├── templates/             # HTML (Jinja)
+│   │   ├── base.html
+│   │   ├── home.html
+│   │   ├── login.html
+│   │   ├── dashboard.html
+│   │   ├── entity.html
+│   │   └── register.html
+│   └── static/                # CSS + JS
+│       ├── css/
+│       └── js/
+├── run.py                     # Punto de entrada
+├── Dockerfile                 # Imagen para Render
+├── requirements.txt           # Dependencias
+├── render.yaml                # Infraestructura Render
+└── tests/                     # Pruebas unitarias y funcionales
+Tecnologías Utilizadas
+Backend
+• Python 3.12+
+• Flask
+• SQLAlchemy
+• Flask-Migrate
+• Flask-JWT-Extended
+• Flask-CORS
+Frontend
+• HTML5 + Jinja2
+• CSS3
+• JavaScript modular (fetch API)
+Infraestructura
+• Docker
+• Render Web Service
+• Render PostgreSQL
+---
+Instalación Local (Modo Desarrollo)
+1. Clonar el repositorio
+git clone https://github.com/MirelSIG/MYSGYM.git
+cd MYSGYM
+2. Crear entorno virtual
+python3 -m venv venv
+source venv/bin/activate
+3. Instalar dependencias
 pip install -r requirements.txt
-```
-
-### 6. Cargar datos de prueba (Opcional)
-Para insertar datos iniciales (salas, empleados, actividades) en la base de datos:
-```bash
-python seed_db.py
-```
-
-### 7. Ejecutar el backend
-```bash
+4. Configurar variables de entorno
+Crear .env:
+DATABASE_URL=postgresql+psycopg://usuario:password@localhost:5432/mysgym
+JWT_SECRET_KEY=super-secret-key
+5. Ejecutar migraciones
+flask db upgrade
+6. Ejecutar servidor
 python run.py
-```
-El servidor estará disponible en `http://localhost:8000`.
+Finalmente, App disponible en: http://localhost:10000
 
+☁️ Despliegue en Render
+Render utiliza:
+• Dockerfile para construir la imagen
+• render.yaml para definir el servicio web
+• DATABASE_URL para conectarse a PostgreSQL gestionado
+Pasos:
+1. Subir el repo a GitHub
+2. Crear un Web Service en Render
+3. Seleccionar el repo
+4. Render detectará el Dockerfile automáticamente
+5. Añadir variable de entorno: 
+DATABASE_URL=postgresql+psycopg://...
+6. Desplegar y esperar a que Render construya y ejecute la app
+
+🧪 Pruebas
+El proyecto incluye pruebas con pytest.
+Ejecutar pruebas: pytest -q
+Con reporte HTML:
+pytest --html=reporte.html
+Con cobertura:
+pytest --cov=app --cov-report=html
+Origen del Proyecto
+Este proyecto nació como un trabajo colaborativo académico, desarrollado originalmente con:
+• Flask
+• MySQL
+• Docker Compose
+• Frontend separado
+La versión actual es un reciclaje profesional, donde se:
+• Unificó backend + frontend en un solo servicio Flask
+• Migró MySQL → PostgreSQL
+• Eliminó dependencias innecesarias
+• Simplificó la arquitectura
+• Adaptó todo para Render Cloud
+• Modernizó rutas, seguridad y estructura
+El resultado es una plataforma más ligera, escalable y lista para producción.
 ---
-
-## Scripts de Utilidad
-
-- **[seed_db.py](seed_db.py)**: Script principal para poblar la base de datos con información didáctica inicial.
-- **[database_schema.sql](database_schema.sql)**: Esquema completo de la base de datos (se ejecuta automáticamente en el primer `docker-compose up`).
-
-## Tests
-
-El proyecto incluye pruebas automatizadas con `pytest` para validar el estado de la base de datos y el flujo de integración.
-
-### Qué cubren
-
-*   La prueba principal de integración en [tests/test_db.py](tests/test_db.py) usa una base SQLite temporal, crea las tablas desde los modelos y verifica tablas, columnas y claves foráneas importantes.
-*   La configuración de [pytest.ini](pytest.ini) ignora `database/` durante la recolección, evitando errores por archivos internos de MySQL.
-
-### Cómo ejecutarlos
-
-```bash
-.venv/bin/python -m pytest -q
-```
-
-Para generar un reporte HTML detallado:
-
-```bash
-.venv/bin/python -m pytest -q --html=reporte.html
-```
-
-Para medir cobertura de código:
-
-```bash
-.venv/bin/python -m pytest -q --cov=app --cov-report=html --cov-report=term
-```
-
-Para análisis estático de código:
-
-```bash
-.venv/bin/python -m pylint app/ --output-format=parseable
-.venv/bin/python -m pylint app/ --disable=missing-docstring
-```
-
-### Generación de reportes
-
-El progreso de cada prueba se guarda automáticamente en `test_progress.log` con fecha y hora (hook configurado en [tests/conftest.py](tests/conftest.py)). 
-
-Los reportes HTML se generan en:
-- `reporte.html` — Detalles de ejecución de pruebas
-- `htmlcov/` — Cobertura de código por línea y módulo
-
-Pylint evalúa la calidad del código en `pylint_report.txt` con puntuación y recomendaciones.
-
----
-
-*Desarrollado para el proyecto final de MYSGYM.*
+👤 Autoría y Créditos
+Proyecto original: equipo colaborativo MYSGYM (https://github.com/MirelSIG/MYSGYM, https://github.com/yeremijesus9, https://github.com/GermanIllan, https://github.com/troyanojoi-sour)
+Refactorización, unificación y despliegue cloud: Mirel Volcán (https://github.com/MirelSIG/MYSGYM)

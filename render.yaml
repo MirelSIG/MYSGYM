@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: backend-mysgym
+    env: docker
+    plan: free
+    autoDeploy: true
+    envVars:
+      - key: DATABASE_URL
+        value: postgresql+psycopg://postgres:SantiagoVolcan1615180@HOST:5432/postgres?sslmode=require
+      - key: JWT_SECRET_KEY
+        generateValue: true
+      - key: FRONTEND_ORIGIN
+        value: https://mirelsig.github.io

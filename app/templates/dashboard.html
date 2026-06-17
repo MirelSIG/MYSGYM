@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+
+{% block title %}MYSGYM | Dashboard{% endblock %}
+
+{% block body %}
+<section class="sec-head">
+    <div>
+        <div class="sec-count">Socios</div>
+        <div class="sec-title">Listado de socios</div>
+    </div>
+    <div>
+        <button id="btn-new" class="btn-new">+ Nuevo socio</button>
+        <button id="btn-logout" class="btn-link">Logout</button>
+    </div>
+</section>
+<!-- Panel principal para administradores (CRUD completo) -->
+<section>
+    <div class="table-wrap">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Email</th>
+                    <th>Teléfono</th>
+                    <th>Estado</th>
+                    <th>Fecha</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="socios-table-body">
+                <tr>
+                    <td colspan="7">Cargando...</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<!-- Panel alternativo para clientes (solo lectura) -->
+<section id="client-panel" style="display:none;">
+    <div class="table-wrap">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Email</th>
+                    <th>Teléfono</th>
+                    <th>Estado</th>
+                    <th>Fecha</th>
+                </tr>
+            </thead>
+            <tbody id="client-table-body">
+                <tr><td colspan="6">Cargando...</td></tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<!-- Modal para crear/editar (usa clases del diseño) -->
+<div id="modal" class="modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);align-items:center;justify-content:center;">
+    <div class="modal-inner" style="background:#fff;padding:18px;max-width:720px;margin:0 auto;">
+        <h3 id="modal-title">Nuevo socio</h3>
+        <form id="modal-form" class="record-form">
+            <input type="hidden" name="id_usuario" value="">
+            <label>
+                <span>Nombre</span>
+                <input name="nombre" required>
+            </label>
+            <label>
+                <span>Email</span>
+                <input type="email" name="email" required>
+            </label>
+            <label>
+                <span>Contraseña</span>
+                <input type="password" name="password">
+            </label>
+            <label>
+                <span>Teléfono</span>
+                <input name="telefono">
+            </label>
+            <label>
+                <span>Estado</span>
+                <input name="estado">
+            </label>
+            <div class="form-actions">
+                <button type="submit" class="btn-new">Guardar</button>
+                <button type="button" id="modal-cancel" class="btn-link">Cancelar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+
+{% endblock %}

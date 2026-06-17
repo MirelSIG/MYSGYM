@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block title %}MYSGYM | Registro{% endblock %}
+
+{% block body %}
+<div class="auth-center">
+    <div class="auth-card">
+        <h2>Registro</h2>
+        <p>Crea tu cuenta para acceder al panel y empezar a usar MYSGYM.</p>
+        <form id="register-form" class="record-form">
+            <label>
+                <span>Nombre</span>
+                <input type="text" name="nombre" required>
+            </label>
+            <label>
+                <span>Email</span>
+                <input type="email" name="email" required>
+            </label>
+            <label>
+                <span>Teléfono</span>
+                <input type="tel" name="telefono">
+            </label>
+            <label>
+                <span>Contraseña</span>
+                <input type="password" name="password" required>
+            </label>
+            <label>
+                <span>Confirmar contraseña</span>
+                <input type="password" name="password_confirm" required>
+            </label>
+            <div class="form-actions">
+                <button type="submit" class="btn-new">Crear cuenta</button>
+                <a class="btn-link" href="/login">Ya tengo cuenta</a>
+            </div>
+        </form>
+        <div id="register-error" class="form-error" style="display:none;color:#c00;margin-top:8px"></div>
+    </div>
+</div>
+
+<script>
+document.getElementById('register-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const nombre = form.nombre.value.trim();
+    const email = form.email.value.trim();
+    const telefono = form.telefono.value.trim();
+    const password = form.password.value;
+    const passwordConfirm = form.password_confirm.value;
+    const errEl = document.getElementById('register-error');
+
+    errEl.style.display = 'none';
+
+    if (password !== passwordConfirm) {
+        errEl.textContent = 'Las contraseñas no coinciden';
+        errEl.style.display = 'block';
+        return;
+    }
+
+    try {
+        await ApiService.registerUsuario({
+            nombre,
+            email,
+            telefono,
+            password
+        });
+        window.location.href = '/login';
+    } catch (err) {
+        errEl.textContent = err.message || 'Error al crear la cuenta';
+        errEl.style.display = 'block';
+    }
+});
+</script>
+{% endblock %}
