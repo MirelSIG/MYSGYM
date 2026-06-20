@@ -10,14 +10,12 @@ db = SQLAlchemy()
 migrate = Migrate()
 jwt = JWTManager()
 
+
 def create_app(config_class=Config):
-    # Servir frontend desde /app/static y /app/templates
     app = Flask(__name__, static_folder="static", template_folder="templates")
 
-    # Cargar configuración
     app.config.from_object(config_class)
 
-    # Configurar CORS
     frontend_origin = os.environ.get("FRONTEND_ORIGIN", "").strip()
     if frontend_origin:
         CORS(app, origins=[frontend_origin])
@@ -28,18 +26,12 @@ def create_app(config_class=Config):
             r"http://127\.0\.0\.1:.*"
         ])
 
-    # Inicializar extensiones
     db.init_app(app)
     migrate.init_app(app, db)
     jwt.init_app(app)
 
-    # Importar modelos
     with app.app_context():
         from . import models
-
-    # ============================
-    #   REGISTRO DE BLUEPRINTS API
-    # ============================
 
     from app.routes.auth import auth_bp
     from app.routes.usuarios import usuarios_bp
@@ -49,24 +41,16 @@ def create_app(config_class=Config):
     from app.routes.mantenimiento import mantenimiento_bp
     from app.routes.empleados import empleados_bp
 
-    app.register_blueprint(auth_bp, url_prefix='/auth')
-    app.register_blueprint(usuarios_bp, url_prefix='/usuarios')
-    app.register_blueprint(gym_bp, url_prefix='/gym')
-    app.register_blueprint(reservas_bp, url_prefix='/reservas')
-    app.register_blueprint(pagos_bp, url_prefix='/pagos')
-    app.register_blueprint(mantenimiento_bp, url_prefix='/mantenimiento')
-    app.register_blueprint(empleados_bp, url_prefix='/empleados')
-
-    # ============================
-    #   REGISTRO DEL FRONTEND
-    # ============================
+    app.register_blueprint(auth_bp, url_prefix='api/auth')
+    app.register_blueprint(usuarios_bp, url_prefix='api/usuarios')
+    app.register_blueprint(gym_bp, url_prefix='api/gym')
+    app.register_blueprint(reservas_bp, url_prefix='api/reservas')
+    app.register_blueprint(pagos_bp, url_prefix='api/pagos')
+    app.register_blueprint(mantenimiento_bp, url_prefix='api/mantenimiento')
+    app.register_blueprint(empleados_bp, url_prefix='api/empleados')
 
     from app.routes.frontend_routes import frontend_bp
     app.register_blueprint(frontend_bp)
-
-    # ============================
-    #   RUTA DE INFORMACIÓN API
-    # ============================
 
     @app.route('/api')
     def api_index():
@@ -86,10 +70,6 @@ def create_app(config_class=Config):
 
     return app
 
-
-# ============================================
-#   FUNCIÓN PARA SEMBRAR LA BASE DE DATOS
-# ============================================
 
 def seed_database(db):
     from app.models import Sala, Horario, Empleado, Usuario, Material
