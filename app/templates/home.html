@@ -5,7 +5,7 @@
 {% block body %}
 <section class="hero">
     <div class="hero-wordmark">
-             MYSGYM
+        MYSGYM
     </div>
     <div class="hero-bottom">
         <div class="hero-img">
@@ -14,8 +14,8 @@
         <div class="hero-kpis">
             <div class="hero-kpi">
                 <div class="kpi-label">Entidades</div>
-                    <div class="kpi-num">{{ sections|length }}</div>
-                    <div class="kpi-sub">tablas del diagrama</div>
+                <div class="kpi-num">{{ sections|length }}</div>
+                <div class="kpi-sub">tablas del diagrama</div>
             </div>
             <div class="hero-kpi">
                 <div class="kpi-label">Registros</div>
@@ -68,7 +68,7 @@
                         <th>ID</th>
                         <th>Usuario</th>
                         <th>Importe</th>
-                        <th>Metodo</th>
+                        <th>Método</th>
                     </tr>
                 </thead>
                 <tbody id="latest-payments-body">
@@ -79,7 +79,7 @@
             </table>
         </div>
         <div class="col-block">
-            <div class="col-title">Distribucion de registros por entidad</div>
+            <div class="col-title">Distribución de registros por entidad</div>
             <div id="distribution-list"></div>
         </div>
     </div>
@@ -89,9 +89,11 @@
     <span>MYSGYM</span>
     <span>Diagrama implementado: usuarios, empleados, salas, horarios, actividades, reservas, material, incidencias y pagos</span>
 </footer>
+
 <script>
-window.MYSGYM_SCHEMA = {{ schema|tojson }};
-window.MYSGYM_SECTIONS = {{ sections|tojson }};
+window.MYSGYM_SCHEMA = {{ (schema | default({})) | tojson }};
+window.MYSGYM_SECTIONS = {{ sections | tojson }};
 </script>
+
 <script src="{{ url_for('static', filename='js/home.js') }}"></script>
 {% endblock %}

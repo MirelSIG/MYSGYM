@@ -44,20 +44,24 @@
         <div class="col-title">{{ config.accent }}</div>
         <div class="form-copy-title" id="form-title">Nuevo registro</div>
         <p class="form-copy-text" id="form-copy">Formulario para insertar datos en la entidad {{ config.title|lower }}.</p>
-        
+
         {% if config.examples %}
         <div class="examples-wrap" style="margin-top: 2rem;">
             <div class="col-title" style="font-size: 0.7rem; opacity: 0.6; margin-bottom: 0.5rem;">RELLENADO RÁPIDO (EJEMPLOS)</div>
             <div class="examples-grid" style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
                 {% for example in config.examples %}
-                <button class="btn-example" data-payload='{{ example|tojson }}' style="background: rgba(0,0,0,0.05); border: 1px solid rgba(0,0,0,0.1); padding: 0.5rem 0.8rem; border-radius: 4px; font-size: 0.8rem; cursor: pointer; transition: all 0.2s;">
-                    {% if example.nombre %}{{ example.nombre }}{% elif example.dia_semana %}{{ example.dia_semana }}{% elif example.descripcion %}{{ example.descripcion }}{% else %}Ejemplo {{ loop.index }}{% endif %}
+                <button class="btn-example" data-payload='{{ example|tojson }}'>
+                    {% if example.nombre %}{{ example.nombre }}
+                    {% elif example.dia_semana %}{{ example.dia_semana }}
+                    {% elif example.descripcion %}{{ example.descripcion }}
+                    {% else %}Ejemplo {{ loop.index }}{% endif %}
                 </button>
                 {% endfor %}
             </div>
         </div>
         {% endif %}
     </div>
+
     <div class="col-block">
         <div class="col-title">Formulario</div>
 
@@ -67,7 +71,7 @@
             <label>
                 <span>{{ field }}</span>
                 <input
-                    type="{% if field in ['capacidad', 'monitor_id', 'sala_id', 'horario_id', 'aforo_maximo', 'usuario_id', 'actividad_id', 'empleado_id', 'material_id', 'monto'] %}number{% else %}text{% endif %}"
+                    type="{% if field in ['capacidad','monitor_id','sala_id','horario_id','aforo_maximo','usuario_id','actividad_id','empleado_id','material_id','monto'] %}number{% else %}text{% endif %}"
                     name="{{ field }}"
                     required
                     {% if field == 'monto' %}step="0.01"{% endif %}
@@ -75,9 +79,7 @@
             </label>
             {% endfor %}
             <div class="form-actions">
-                <button type="submit" class="btn-new">
-                    Guardar registro
-                </button>
+                <button type="submit" class="btn-new">Guardar registro</button>
                 <button type="button" class="btn-link" id="form-reset">Cancelar</button>
             </div>
         </form>
@@ -88,9 +90,11 @@
     <span>{{ config.title }}</span>
     <span><span id="entity-footer-count">0</span> total</span>
 </footer>
+
 <script>
 window.MYSGYM_ENTITY = {{ entity|tojson }};
 window.MYSGYM_CONFIG = {{ config|tojson }};
 </script>
+
 <script src="{{ url_for('static', filename='js/entity.js') }}"></script>
 {% endblock %}
