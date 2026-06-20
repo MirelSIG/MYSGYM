@@ -41,13 +41,13 @@ def create_app(config_class=Config):
     from app.routes.mantenimiento import mantenimiento_bp
     from app.routes.empleados import empleados_bp
 
-    app.register_blueprint(auth_bp, url_prefix='api/auth')
-    app.register_blueprint(usuarios_bp, url_prefix='api/usuarios')
-    app.register_blueprint(gym_bp, url_prefix='api/gym')
-    app.register_blueprint(reservas_bp, url_prefix='api/reservas')
-    app.register_blueprint(pagos_bp, url_prefix='api/pagos')
-    app.register_blueprint(mantenimiento_bp, url_prefix='api/mantenimiento')
-    app.register_blueprint(empleados_bp, url_prefix='api/empleados')
+    app.register_blueprint(auth_bp, url_prefix='/api/auth')
+    app.register_blueprint(usuarios_bp, url_prefix='/api/usuarios')
+    app.register_blueprint(gym_bp, url_prefix='/api/gym')
+    app.register_blueprint(reservas_bp, url_prefix='/api/reservas')
+    app.register_blueprint(pagos_bp, url_prefix='/api/pagos')
+    app.register_blueprint(mantenimiento_bp, url_prefix='/api/mantenimiento')
+    app.register_blueprint(empleados_bp, url_prefix='/api/empleados')
 
     from app.routes.frontend_routes import frontend_bp
     app.register_blueprint(frontend_bp)
