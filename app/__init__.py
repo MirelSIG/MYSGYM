@@ -69,6 +69,11 @@ def create_app(config_class=Config):
                 "mantenimiento":  "/api/mantenimiento/materiales, /api/mantenimiento/incidencias",
             },
         }
+    @app.route("/run-seed")
+    def run_seed():
+        from app import seed_database, db
+        seed_database(db)
+        return "Seed ejecutado correctamente"
 
     return app
 
