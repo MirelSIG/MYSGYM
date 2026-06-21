@@ -20,6 +20,7 @@ def create_app(config_class=Config):
         CORS(app, origins=[frontend_origin])
     else:
         CORS(app, origins=[
+            "https://mysgym.onrender.com", 
             r"https://.*\.onrender\.com",
             r"http://localhost:.*",
             r"http://127\.0\.0\.1:.*",
